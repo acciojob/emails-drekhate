@@ -68,7 +68,7 @@ public class Gmail extends Email {
             }
             st.push(inbox.remove());
         }
-        while (st.isEmpty()) {
+        while (!st.isEmpty()) {
             inbox.addFirst(st.pop());
         }
     }
