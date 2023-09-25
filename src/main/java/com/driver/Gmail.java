@@ -32,6 +32,11 @@ public class Gmail extends Email {
         }
 
     }
+
+    public Gmail() {
+
+    }
+
     Deque<Mail> Inbox;
     Deque<Mail> Trash;
     public Gmail(String emailId, int inboxCapacity) {
