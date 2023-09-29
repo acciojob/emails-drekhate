@@ -35,7 +35,7 @@ public class Workspace extends Gmail{
         int maxMeeting = 0;
         Meeting preMeeting = null;
         for (Meeting currMeeting: calendar) {
-            if (preMeeting == null || currMeeting.getStartTime().compareTo(preMeeting.getEndTime()) != 0) {
+            if (preMeeting == null || currMeeting.getStartTime().compareTo(preMeeting.getEndTime()) > 0) {
                 maxMeeting ++;
                 preMeeting = currMeeting;
             }
