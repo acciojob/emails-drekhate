@@ -37,13 +37,13 @@ public class Gmail extends Email {
 
     }
 
-    Deque<Mail> Inbox;
-    Deque<Mail> Trash;
+    ArrayList<Mail> Inbox;
+    ArrayList<Mail> Trash;
     public Gmail(String emailId, int inboxCapacity) {
         super(emailId);
         this.inboxCapacity = inboxCapacity;
-        Inbox = new ArrayDeque<>();
-        Trash = new ArrayDeque<>();
+        Inbox = new ArrayList<>();
+        Trash = new ArrayList<>();
 
     }
 
@@ -53,7 +53,7 @@ public class Gmail extends Email {
         // 1. Each mail in the inbox is distinct.
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
         if (Inbox.size() == inboxCapacity) {
-            Mail currMail = Inbox.remove();
+            Mail currMail = Inbox.remove(0);
             Trash.add(currMail);
             Inbox.add(new Mail(date, sender, message));
         } else {
@@ -65,16 +65,16 @@ public class Gmail extends Email {
     public void deleteMail(String message){
         // Each message is distinct
         // If the given message is found in any mail in the inbox, move the mail to trash, else do nothing
-        Stack<Mail> st = new Stack<>();
-        for (Mail mail: Inbox) {
-            if (message.equals(mail.getMessage())) {
-                Inbox.remove();
+        int index = -1;
+        for (int i = 0; i < Inbox.size(); i ++) {
+            if (message.equals(Inbox.get(i).getMessage())) {
+                index = i;
                 break;
             }
-            st.push(Inbox.remove());
         }
-        while (!st.isEmpty()) {
-            Inbox.addFirst(st.pop());
+        if (index != -1) {
+            Trash.add(Inbox.get(index));
+            Inbox.remove(index);
         }
     }
 
@@ -84,8 +84,7 @@ public class Gmail extends Email {
         if(Inbox.isEmpty()) {
             return null;
         } else {
-            Mail currEle = Inbox.peekLast();
-            return currEle.getMessage();
+            return Inbox.get(Inbox.size() - 1).getMessage();
         }
     }
 
@@ -95,8 +94,7 @@ public class Gmail extends Email {
         if(Inbox.isEmpty()) {
             return null;
         } else {
-            Mail currEle = Inbox.peekFirst();
-            return currEle.getMessage();
+            return Inbox.get(0).getMessage();
         }
     }
 
